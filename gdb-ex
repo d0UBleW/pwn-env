@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Reference: https://stackoverflow.com/a/44161527
+
+set -euo pipefail
+
+trap 'kill_server_pane' ERR EXIT
+
+kill_server_pane() {
+    tmux kill-pane -a -t 0
+}
+
+usage() {
+    echo -e "\nUsage:"
+    echo "$0 <FILE> [<ARGS1>] [<ARGS2>] ... [\< FILE_AS_STDIN]"
+    echo "Note the backslash before '<'"
+    exit 1
+}
+
+if [[ "$#" -lt 1 ]]; then
+    echo "Please at least supply a file to be debugged"
+    usage
+fi
+
+# DEBUG_ARGS="echo $*"
+SERVER=("gdbserver" "--multi" ":12345")
+CLIENT=( "gdb" "-q" "-ex" "set sysroot" \
+    "-ex" "target extended-remote :12345" \
+    "-ex" "set remote exec-file ${@:1:1}" \
+    "--args" "${@}")
+
+tmux splitw -dh "${SERVER[*]}"
+"${CLIENT[@]}"

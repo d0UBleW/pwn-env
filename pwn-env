@@ -1,0 +1,6 @@
+#!/bin/bash
+
+WD="/pwn/chall"
+
+docker run --rm -it -v "$(pwd)":${WD} -w ${WD} \
+    --security-opt seccomp=unconfined --name ctf-pwn pwn-env

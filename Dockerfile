@@ -54,6 +54,7 @@ RUN cp /root/.gdbinit /home/pwn/.gdbinit
 USER pwn
 
 COPY tmux.conf /home/pwn/.tmux.conf
+COPY gdb-ex /usr/local/bin/gdb-ex
 
 ENTRYPOINT ["/bin/bash", "-c"]
 

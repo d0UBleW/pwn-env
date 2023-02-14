@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker rmi pwn
-docker build -t pwn .
+docker rmi pwn-env
+docker build -t pwn-env .
