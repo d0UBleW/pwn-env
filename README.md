@@ -1,24 +1,29 @@
 # pwn-env
 
-## Clone
+## Install
+
+Clone the repository
 
 ```sh
 git clone https://github.com/d0ublew/pwn-env
+cd pwn-env
 ```
 
-## Pull from registry
+Choose either one:
+
+- pull from registry
 
 ```sh
 docker pull d0ublew/pwn-env
 ```
 
-## Build from source
+- build from source
 
 ```sh
 chmod +x ./build.sh && ./build.sh
 ```
 
-## Install
+Run install script
 
 ```sh
 chmod +x ./install.sh && ./install.sh
