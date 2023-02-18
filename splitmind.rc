@@ -1,0 +1,24 @@
+set context-clear-screen on
+set follow-fork-mode parent
+
+source /opt/splitmind/gdbinit.py
+python
+import splitmind
+(splitmind.Mind()
+  .tell_splitter(show_titles=True)
+  .tell_splitter(set_title="Main")
+  .right(of="main", display="legend", size="50%")
+  .show("regs", on="legend")
+  .below(of="regs", cmd='tty; tail -f /dev/null', size="33%", clearing=False)
+  .tell_splitter(set_title='Input / Output')
+  .below(of="regs", display="stack", size="50%")
+  .above(of="main", cmd="ipython3", size="25%")
+  .tell_splitter(set_title='IPython3')
+  .above(of="main", display="disasm", size="70%")
+  .show("code", on="disasm", banner="none")
+  .below(of="disasm", display="backtrace", size="25%")
+).build(nobanner=True)
+end
+set context-code-lines 15
+set context-source-code-lines 15
+set context-sections  "regs args code disasm stack backtrace"

@@ -2,9 +2,9 @@
 
 # Reference: https://stackoverflow.com/a/44161527
 
-set -euo pipefail
+set -eo pipefail
 
-trap 'kill_server_pane' ERR EXIT
+trap 'kill_server_pane' ERR
 
 kill_server_pane() {
     tmux kill-pane -a -t 0
@@ -17,17 +17,26 @@ usage() {
     exit 1
 }
 
+if [[ -z "$TMUX" ]]; then
+    echo "This script only works inside a tmux session"
+    exit 1
+fi
+
 if [[ "$#" -lt 1 ]]; then
     echo "Please at least supply a file to be debugged"
     usage
 fi
 
+FILENAME="${@:1:1}"
+
 # DEBUG_ARGS="echo $*"
-SERVER=("gdbserver" "--multi" ":12345")
+SERVER=("gdbserver" "--multi" ":12345" "${@}")
 CLIENT=( "gdb" "-q" "-ex" "set sysroot" \
     "-ex" "target extended-remote :12345" \
-    "-ex" "set remote exec-file ${@:1:1}" \
-    "--args" "${@}")
+    "-ex" "set remote exec-file ${FILENAME}" \
+    "--args" "${@}" "${FILENAME}")
 
 tmux splitw -dh "${SERVER[*]}"
 "${CLIENT[@]}"
+kill_server_pane
+pkill gdb

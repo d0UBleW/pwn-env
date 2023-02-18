@@ -2,5 +2,13 @@
 
 WD="/pwn/chall"
 
+IMAGE="pwn-env"
+
+out=$(docker image ls "${IMAGE}" | awk 'NR != 1' | wc -l)
+
+if [[ "$out" -eq 0 ]]; then
+    IMAGE="d0ublew/pwn-env"
+fi
+
 docker run --rm -it -v "$(pwd)":${WD} -w ${WD} \
-    --security-opt seccomp=unconfined --name ctf-pwn pwn-env
+    --security-opt seccomp=unconfined --name ctf-pwn ${IMAGE}
