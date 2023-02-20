@@ -1,0 +1,26 @@
+# References: https://github.com/apogiatzis/gdb-peda-pwndbg-gef/
+
+define init-pwndbg
+source /pwn/pwndbg/gdbinit.py
+end
+
+document init-pwndbg
+Initializes pwndbg
+end
+
+define init-splitmind
+set context-clear-screen on
+set follow-fork-mode parent
+
+source /opt/splitmind/gdbinit.py
+source /opt/splitmind-rc.py
+source /var/tmp/gdb_io_tty
+
+set context-code-lines 15
+set context-source-code-lines 15
+set context-sections  "regs args code disasm stack backtrace"
+end
+
+document init-splitmind
+Initializes splitmind view
+end

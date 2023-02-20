@@ -64,22 +64,22 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -qq \
 
 RUN git clone https://github.com/jerdna-regeiz/splitmind /opt/splitmind
 
-COPY ./splitmind.rc /tmp/splitmind.rc
+COPY ./config/splitmind-rc.py /opt
 
-RUN cat /tmp/splitmind.rc >> /root/.gdbinit && \
-    rm /tmp/splitmind.rc
+COPY ./config/gdbinit /root/.gdbinit
+
+COPY ./bin/container/pwndbg /usr/local/bin
+COPY ./bin/container/pwndbg-splitmind /usr/local/bin
 
 RUN groupadd -g 1000 pwn && \
     useradd -m -r -u 1000 -g pwn pwn
 
 RUN cp /root/.gdbinit /home/pwn/.gdbinit
 
-COPY ./gdb-ex /usr/local/bin/gdb-ex
-
 USER pwn
 
-COPY tmux.conf /home/pwn/.tmux.conf
-COPY inputrc /home/pwn/.inputrc
+COPY ./config/tmux.conf /home/pwn/.tmux.conf
+COPY ./config/inputrc /home/pwn/.inputrc
 
 ENV TERM=xterm-256color
 
