@@ -2,12 +2,12 @@
 
 WD="/pwn/chall"
 
-IMAGE="pwn-env"
+IMAGE="d0ublew/pwn-env"
 
 out=$(docker image ls "${IMAGE}" | awk 'NR != 1' | wc -l)
 
 if [[ "$out" -eq 0 ]]; then
-    IMAGE="d0ublew/pwn-env"
+    IMAGE="pwn-env"
 fi
 
 docker run --rm -it -v "$(pwd)":${WD} -w ${WD} \
