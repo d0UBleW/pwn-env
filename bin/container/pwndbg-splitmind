@@ -1,3 +1,3 @@
 #!/bin/bash
 
-exec gdb -q -ex 'init-pwndbg' -ex 'init-splitmind' "$@"
+exec gdb -q -ex 'init-splitmind' "$@"

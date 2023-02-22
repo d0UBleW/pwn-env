@@ -2,6 +2,7 @@
 
 define init-pwndbg
 source /pwn/pwndbg/gdbinit.py
+set follow-fork-mode parent
 end
 
 document init-pwndbg
@@ -9,6 +10,8 @@ Initializes pwndbg
 end
 
 define init-splitmind
+init-pwndbg
+
 set context-clear-screen on
 set follow-fork-mode parent
 
@@ -16,11 +19,29 @@ source /opt/splitmind/gdbinit.py
 source /opt/splitmind-rc.py
 source /var/tmp/gdb_io_tty
 
-set context-code-lines 15
-set context-source-code-lines 15
+set context-code-lines 10
+set context-source-code-lines 10
 set context-sections  "regs args code disasm stack backtrace"
 end
 
 document init-splitmind
 Initializes splitmind view
+end
+
+define init-splitmind-no-io
+init-pwndbg
+
+set context-clear-screen on
+set follow-fork-mode parent
+
+source /opt/splitmind/gdbinit.py
+source /opt/splitmind-no-io-rc.py
+
+set context-code-lines 15
+set context-source-code-lines 15
+set context-sections  "regs args code disasm stack backtrace"
+end
+
+document init-splitmind-no-io
+Initializes splitmind view without I/O
 end

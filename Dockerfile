@@ -56,9 +56,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -qq \
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qq \
     ipython3
 
+RUN pip install ropper
+
 RUN git clone https://github.com/jerdna-regeiz/splitmind /opt/splitmind
 
 COPY ./config/splitmind-rc.py /opt
+COPY ./config/splitmind-no-io-rc.py /opt
 
 COPY ./config/gdbinit /root/.gdbinit
 
@@ -69,8 +72,6 @@ RUN groupadd -g 1000 pwn && \
     useradd -m -r -u 1000 -g pwn pwn
 
 RUN cp /root/.gdbinit /home/pwn/.gdbinit
-
-RUN pip install ropper
 
 USER pwn
 
