@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -eo pipefail
+
+if [[ "$#" -ne 2 ]]; then
+    echo "Usage: $0 /path/to/elf /path/to/libc"
+    exit 1
+fi
+
+/home/doublew/scripts/unstrip-libc.py "$2"
+patched="${1}_patched"
+cp "$1" "$patched"
+patchelf --set-rpath . "$patched"

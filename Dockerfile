@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ENV LANG en_US.utf8
 ENV LC_ALL en_US.UTF-8
@@ -60,26 +60,46 @@ RUN pip install ropper
 
 RUN git clone https://github.com/jerdna-regeiz/splitmind /opt/splitmind
 
+RUN wget -O /pwn/.gdbinit-gef.py -q https://gef.blah.cat/py
+
 COPY ./config/splitmind-rc.py /opt
 COPY ./config/splitmind-no-io-rc.py /opt
 
 COPY ./config/gdbinit /root/.gdbinit
+COPY ./config/tmux.conf /root/.tmux.conf
+COPY ./config/inputrc /root/.inputrc
 
 COPY ./bin/container/pwndbg /usr/local/bin
 COPY ./bin/container/pwndbg-splitmind /usr/local/bin
+COPY ./bin/container/gef /usr/local/bin
+COPY ./bin/container/pwn-init /usr/local/bin
+COPY ./bin/container/unstrip-libc.py /usr/local/bin
 
-RUN groupadd -g 1000 pwn && \
-    useradd -m -r -u 1000 -g pwn pwn
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qq \
+    netcat zip
 
-RUN cp /root/.gdbinit /home/pwn/.gdbinit
+RUN wget https://github.com/0vercl0k/rp/releases/download/v2.1.1/rp-lin-clang.zip -O /tmp/rp.zip && \
+    unzip /tmp/rp.zip -d /usr/local/bin && rm /tmp/rp.zip && \
+    mv /usr/local/bin/rp-lin /usr/local/bin/rp && \
+    chmod +x /usr/local/bin/rp
 
-USER pwn
-
-COPY ./config/tmux.conf /home/pwn/.tmux.conf
-COPY ./config/inputrc /home/pwn/.inputrc
+# RUN echo "deb http://th.archive.ubuntu.com/ubuntu jammy main" >> /etc/apt/sources.list
+#
+# RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -qq \
+#     libc6
+#
+# RUN groupadd -g 1000 pwn && \
+#     useradd -m -r -u 1000 -g pwn pwn
+#
+# RUN cp /root/.gdbinit /home/pwn/.gdbinit
+#
+# USER pwn
+#
+# COPY ./config/tmux.conf /home/pwn/.tmux.conf
+# COPY ./config/inputrc /home/pwn/.inputrc
 
 ENV TERM=xterm-256color
 
-ENTRYPOINT ["/bin/bash", "-c"]
+ENTRYPOINT ["/bin/bash"]
 
-CMD ["/usr/bin/tmux"]
+# CMD ["/usr/bin/tmux"]

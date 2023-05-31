@@ -1,7 +1,10 @@
-"\en": history-search-forward
-"\ep": history-search-backward
+# https://ss64.com/bash/syntax-inputrc.html
 "\C-n": menu-complete
 "\C-p": menu-complete-backward
+"\C-o": "> flag.txt"
+"\en": history-search-forward
+"\ep": history-search-backward
+"\C-x\C-u": universal-argument
 
 set completion-ignore-case on
 set meta-flag on
