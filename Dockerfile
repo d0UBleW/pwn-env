@@ -83,6 +83,12 @@ RUN wget https://github.com/0vercl0k/rp/releases/download/v2.1.1/rp-lin-clang.zi
     mv /usr/local/bin/rp-lin /usr/local/bin/rp && \
     chmod +x /usr/local/bin/rp
 
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -qq \
+    ruby
+
+RUN gem install one_gadget
+
 # RUN echo "deb http://th.archive.ubuntu.com/ubuntu jammy main" >> /etc/apt/sources.list
 #
 # RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -qq \

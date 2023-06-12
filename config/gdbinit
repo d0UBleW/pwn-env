@@ -1,5 +1,13 @@
 # References: https://github.com/apogiatzis/gdb-peda-pwndbg-gef/
 
+define init-gef
+source /pwn/.gdbinit-gef.py
+end
+
+document init-gef
+Initializes gef
+end
+
 define init-pwndbg
 source /pwn/pwndbg/gdbinit.py
 set follow-fork-mode parent
@@ -19,8 +27,8 @@ source /opt/splitmind/gdbinit.py
 source /opt/splitmind-rc.py
 source /var/tmp/gdb_io_tty
 
-set context-code-lines 10
-set context-source-code-lines 10
+set context-code-lines 8
+set context-source-code-lines 8
 set context-sections  "regs args code disasm stack backtrace"
 end
 
