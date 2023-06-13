@@ -89,6 +89,9 @@ RUN apt-get update && \
 
 RUN gem install one_gadget
 
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN $HOME/.cargo/bin/cargo install ropr
+
 # RUN echo "deb http://th.archive.ubuntu.com/ubuntu jammy main" >> /etc/apt/sources.list
 #
 # RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -qq \
