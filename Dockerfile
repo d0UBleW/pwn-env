@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 ENV LANG en_US.utf8
 ENV LC_ALL en_US.UTF-8
@@ -76,7 +76,9 @@ COPY ./bin/container/pwn-init /usr/local/bin
 COPY ./bin/container/unstrip-libc.py /usr/local/bin
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qq \
-    netcat zip
+    netcat zip p7zip-full\
+    qemu-system \
+    qemu-user-static
 
 RUN wget https://github.com/0vercl0k/rp/releases/download/v2.1.1/rp-lin-clang.zip -O /tmp/rp.zip && \
     unzip /tmp/rp.zip -d /usr/local/bin && rm /tmp/rp.zip && \
@@ -91,6 +93,14 @@ RUN gem install one_gadget
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN $HOME/.cargo/bin/cargo install ropr
+
+RUN git clone https://github.com/d0UBleW/how2heap
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install \
+    zstd
+
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # RUN echo "deb http://th.archive.ubuntu.com/ubuntu jammy main" >> /etc/apt/sources.list
 #
